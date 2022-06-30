@@ -1,4 +1,3 @@
-import logo from '../assets/logo.png';
 import { GitHub } from 'react-feather';
 import Head from 'next/head';
 import type { NextPage } from 'next';
