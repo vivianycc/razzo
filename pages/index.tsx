@@ -11,6 +11,7 @@ const Home: NextPage = () => {
       <title>Razzo</title>
       <meta name="description" content="Deploy your services gracefully." />
       <link rel="icon" href="/favicon.png" />
+      <meta name="og:image" content="https://razzo.app/og.png" />
     </Head>
     <div
       className="w-screen h-screen flex justify-center
