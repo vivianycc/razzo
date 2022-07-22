@@ -14,7 +14,7 @@ function getToken() {
 
 function getWSLink() {
   return new GraphQLWsLink(createClient({
-    url: 'ws://' + API_URL,
+    url: 'wss://' + API_URL,
     connectionParams: { authToken: getToken() },
   }));
 }
@@ -33,7 +33,7 @@ const authLink = setContext((_, { headers }) => {
 });
 
 const client = new ApolloClient({
-  uri: 'http://' + API_URL,
+  uri: 'https://' + API_URL,
   cache: new InMemoryCache(),
   link: isBrowser() ? ApolloLink.from([authLink, getWSLink()]) : undefined,
 });
