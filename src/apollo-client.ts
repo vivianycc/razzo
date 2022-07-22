@@ -3,11 +3,9 @@ import { setContext } from '@apollo/client/link/context';
 import { GraphQLWsLink } from '@apollo/client/link/subscriptions';
 import { createClient } from 'graphql-ws';
 
-// const API_URL = 'api.razzo.app/graphql';
-const API_URL = 'localhost:8080/graphql';
+const API_URL = 'api.razzo.app/graphql';
 
 function getToken() {
-  return 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhdWQiOiI2MmM2OWJmMjAzYTZkYWE0ZTM0MTkyYjYiLCJqdGkiOiI2MmM2OWJmMjAzYTZkYWE0ZTM0MTkyYjYxNjU4NDIyMDcyIiwiaWF0IjoxNjU4NDIyMDcyLCJpc3MiOiJteWJvb20ifQ.8bbM3is1FcH7tKqP6XtN30hsbdw4Soox-V8Uy4dmS-k';
   if(isBrowser()) {
     return localStorage.getItem('token') || 'undefined';
   }
