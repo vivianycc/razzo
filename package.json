@@ -13,6 +13,7 @@
     "graphql": "^16.5.0",
     "graphql-ws": "^5.9.1",
     "next": "12.2.0",
+    "next-i18next": "^11.3.0",
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "react-feather": "^2.0.10"
