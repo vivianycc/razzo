@@ -1,15 +1,14 @@
-import { Log, parseLog } from '../../../models/log';
+import { Log, parseLog } from '@models/log';
 import { gql, useSubscription } from '@apollo/client';
 
 const SUBSCRIPTION_BUILD_LOG = gql`
-  subscription ($deploymentId: ID!) {
-    buildLogReceived(deploymentID: $deploymentId) {
-		id
-		timestamp
-		level
-		message
-	}
-  }
+    subscription ($deploymentId: ObjectID!) {
+        buildLogReceived(deploymentID: $deploymentId) {
+            timestamp
+            level
+            message
+        }
+    }
 `;
 
 interface useDeploymentLogsOptions {
@@ -18,7 +17,10 @@ interface useDeploymentLogsOptions {
 }
 
 function useDeploymentLogs(opt: useDeploymentLogsOptions) {
-  const { deploymentId, onReceived } = opt;
+  const {
+    deploymentId,
+    onReceived
+  } = opt;
   return useSubscription(SUBSCRIPTION_BUILD_LOG, {
     variables: { deploymentId },
     onSubscriptionData: ({ subscriptionData }: any) => {

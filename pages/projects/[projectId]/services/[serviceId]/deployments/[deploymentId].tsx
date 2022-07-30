@@ -7,14 +7,14 @@ function DeploymentInfoPage() {
 
   const projectId = useRouter().query.projectId;
   const serviceId = useRouter().query.serviceId;
-  const deploymentId = useRouter().query.deploymentId;
+  const deploymentId = useRouter().query.deploymentId as string;
 
   return <div>
-    <PageHead title={serviceId + ' | Razzo'} />
+    <PageHead title={serviceId + ' | Razzo'}/>
     <div
       className="w-screen flex justify-center
      items-center flex-col">
-      <img src="/logo.png" className="w-36" alt="razzo" />
+      <img src="/logo.png" className="w-36" alt="razzo"/>
 
       <div className="mt-8">
         <p>Deployment Info Page</p>
@@ -25,7 +25,7 @@ function DeploymentInfoPage() {
 
       <div className="mt-12">
         <p className="mb-4">Example Build Log</p>
-        <BuildLogs />
+        <BuildLogs deploymentId={deploymentId}/>
       </div>
 
       <Link href="/" passHref>
