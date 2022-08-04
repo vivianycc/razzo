@@ -19,7 +19,6 @@ export function updateServiceData(data: Service | Service[]) {
 /** Merge the old data with new data, because there may be some missing field
  * in new data due to GraphQL query field selection */
 function _mergeUpdate(data: Service) {
-  console.log('_mergeUpdate', data);
   const old = serviceStore.get(data._id);
   if (old) serviceStore.set(data._id, { ...old, ...data });
   else serviceStore.set(data._id, data);
@@ -51,17 +50,25 @@ const QUERY_PROJECT = gql`
 
 export function useServiceData(serviceId: string | undefined) {
 
-  const { data } = useQuery(QUERY_PROJECT, {
-    variables: { serviceId },
-    skip: !serviceId
-  });
   const serviceSnap = useSnapshot(serviceStore);
+  const cached = serviceId ? serviceSnap.get(serviceId) : undefined;
+
+  const {
+    data,
+    refetch: revalidate
+  } = useQuery(QUERY_PROJECT, {
+    variables: { serviceId },
+    skip: !serviceId || !!cached
+  });
 
   useEffect(() => {
-    if (data?.project) updateServiceData(data.project);
+    if (data?.service) updateServiceData(data.service);
   }, [data]);
 
-  return { service: serviceId ? serviceSnap.get(serviceId) : undefined };
+  return {
+    service: cached,
+    revalidate
+  };
 }
 
 const QUERY_SERVICES = gql`
