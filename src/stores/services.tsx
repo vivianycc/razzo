@@ -8,7 +8,7 @@ const serviceStore = proxyMap<string, Service>();
 
 /** We maintain a map to record the mapping relationship between project ID
  * and it's services ID, this speed up the query time on specific projectID */
-const projectServiceMapping = proxyMap<string, string[]>();
+const projectServiceMapping = proxyMap<string, Set<string>>();
 
 /** Save new service data into Valtio store */
 export function updateServiceData(data: Service | Service[]) {
@@ -24,8 +24,13 @@ function _mergeUpdate(data: Service) {
   if (old) serviceStore.set(data._id, { ...old, ...data });
   else serviceStore.set(data._id, data);
   if (data?.project?._id) {
-    projectServiceMapping.set(data.project._id,
-      [...projectServiceMapping.get(data.project._id) || [], data._id]);
+    const oldSet = projectServiceMapping.get(data.project._id);
+    if (oldSet) {
+      oldSet.add(data._id);
+      projectServiceMapping.set(data.project._id, oldSet);
+    } else {
+      projectServiceMapping.set(data.project._id, new Set([data._id]));
+    }
   }
 }
 
