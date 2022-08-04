@@ -1,0 +1,136 @@
+scalar ObjectID
+scalar Time
+
+type PageInfo {
+  totalCount: Int!
+  hasNextPage: Boolean!
+}
+
+type User {
+  _id: ObjectID!
+  name: String!
+  email: String!
+  githubID: Int!
+  avatarURL: String!
+}
+
+type UserEdge {
+  node: User!
+  cursor: String!
+}
+
+type UserConnection {
+  pageInfo: PageInfo!
+  edges: [UserEdge]!
+}
+
+type LoginResponse {
+  token: String!
+  user: User!
+}
+
+type Project {
+  _id: ObjectID!
+  name: String!
+  createdAt: Time!
+  owner: User!
+}
+
+type ProjectEdge {
+  node: Project!
+  cursor: String!
+}
+
+type ProjectConnection {
+  pageInfo: PageInfo!
+  edges: [ProjectEdge]!
+}
+
+type BuildJob {
+  _id: ObjectID!
+  createdAt: Time!
+  status: BuildJobStatus!
+  deployment: Deployment!
+}
+
+type BuildJobEdge {
+  node: BuildJob!
+  cursor: String!
+}
+
+type BuildJobConnection {
+  pageInfo: PageInfo!
+  edges: [BuildJobEdge]!
+}
+
+"""
+A Deployment is a version of service which built from source code to image,
+and deployed to cluster.
+"""
+type Deployment {
+  _id: ObjectID!
+  gitProvider: GitProvider!
+  repoOwner: String!
+  repoName: String!
+  ref: String!
+  commitSHA: String!
+  commitMessage: String!
+  projectID: ObjectID!
+  serviceID: ObjectID!
+  buildJobs: BuildJobConnection!
+  status: DeploymentStatus!
+  createdAt: Time!
+}
+
+type DeploymentEdge {
+  node: Deployment!
+  cursor: String!
+}
+
+type DeploymentConnection {
+  pageInfo: PageInfo!
+  edges: [DeploymentEdge]!
+}
+
+type Service {
+  _id: ObjectID!
+  name: String!
+  template: ServiceTemplate!
+  project: Project!
+  gitProvider: GitProvider!
+  repoOwner: String!
+  repoName: String!
+  branchName: String!
+}
+
+type ServiceEdge {
+  node: Service!
+  cursor: String!
+}
+
+type ServiceConnection {
+  pageInfo: PageInfo!
+  edges: [ServiceEdge]!
+}
+
+type Log {
+  message: String!
+  timestamp: Time!
+  level: LogLevel!
+}
+
+type GitNamespace {
+  id: Int!
+  installationID: Int!
+  name: String!
+  type: GitNamespaceType!
+  provider: GitProvider!
+}
+
+type GitRepository {
+  id: Int!
+  name: String!
+  namespace: GitNamespace!
+  provider: GitProvider!
+  url: String!
+}

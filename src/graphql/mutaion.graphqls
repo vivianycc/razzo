@@ -1,0 +1,29 @@
+type Mutation {
+  """
+  create project
+  """
+  createProject(name: String!): Project!
+
+  """
+  create a new service in a project
+  """
+  createService(
+    name: String!,
+    template: ServiceTemplate!,
+    projectID: ObjectID!,
+    gitProvider: GitProvider!,
+    repoOwner: String!,
+    repoName: String!,
+    branchName: String!
+  ): Service!
+
+  """
+  Delete a service
+  """
+  deleteService(_id: ObjectID!): Boolean!
+
+  """
+  Delete a project
+  """
+  deleteProject(_id: ObjectID!): Boolean!
+}
