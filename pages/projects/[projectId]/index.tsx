@@ -40,6 +40,13 @@ function ProjectInfoPage() {
         <p>project: {projectId}</p>
       </div>
 
+      <Link
+        href="/projects/[projectId]/deploy"
+        as={`/projects/${projectId}/deploy`}
+      >
+        <a className="text-blue-500 my-8">Deploy New Service</a>
+      </Link>
+
       <div>
         <p>Services of this Project</p>
         <div>
