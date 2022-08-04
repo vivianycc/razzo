@@ -2,6 +2,7 @@ import PageHead from '@components/PageHead';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { gql, useQuery } from '@apollo/client';
+import TopNav from '@components/TopNav';
 
 const QUERY_SERVICES = gql`
     query ($projectId: ObjectID!) {
@@ -30,15 +31,10 @@ function ProjectInfoPage() {
 
   return <div>
     <PageHead title={projectId + ' | Razzo'}/>
+    <TopNav/>
     <div
       className="w-screen h-screen flex justify-center
      items-center flex-col">
-      <img src="/logo.png" className="w-36" alt="razzo"/>
-
-      <div className="mt-8">
-        <p>Project Info Page</p>
-        <p>project: {projectId}</p>
-      </div>
 
       <Link
         href="/projects/[projectId]/deploy"
@@ -65,11 +61,6 @@ function ProjectInfoPage() {
           })}
         </div>
       </div>
-
-      <Link href="/" passHref>
-        <a className="text-blue-500 mt-8">Back Home</a>
-      </Link>
-
     </div>
   </div>;
 }

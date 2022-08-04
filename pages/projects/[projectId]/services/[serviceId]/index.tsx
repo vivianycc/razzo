@@ -1,7 +1,9 @@
 import PageHead from '@components/PageHead';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
-import { gql, useQuery } from '@apollo/client';
+import { gql, useMutation, useQuery } from '@apollo/client';
+import { router } from 'next/client';
+import TopNav from '@components/TopNav';
 
 const QUERY_DEPLOYMENTS = gql`
     query ($serviceID: ObjectID!) {
@@ -19,6 +21,12 @@ const QUERY_DEPLOYMENTS = gql`
     }
 `;
 
+const DELETE_SERVICE = gql`
+    mutation ($serviceID: ObjectID!) {
+        deleteService(_id: $serviceID)
+    }
+`;
+
 function ServiceInfoPage() {
 
   const projectId = useRouter().query.projectId;
@@ -29,19 +37,33 @@ function ServiceInfoPage() {
     variables: { serviceID: serviceId }
   });
 
+  const [deleteService] = useMutation(DELETE_SERVICE);
+
   const deployments = data?.deployments?.edges.map((e: any) => e.node);
 
   return <div>
     <PageHead title={serviceId + ' | Razzo'}/>
+    <TopNav/>
     <div
       className="w-screen h-screen flex justify-center
      items-center flex-col">
-      <img src="/logo.png" className="w-36" alt="razzo"/>
 
       <div className="mt-8">
         <p>Service Info Page</p>
         <p>project: {projectId}</p>
         <p>service: {serviceId}</p>
+      </div>
+
+      <div className="my-8">
+        <p
+          className="text-red-500 cursor-pointer"
+          onClick={async () => {
+            await deleteService({ variables: { serviceID: serviceId } });
+            await router.push('/projects/[projectId]',
+              `/projects/${projectId}`);
+          }}>
+          Delete Service
+        </p>
       </div>
 
       <div>
@@ -66,11 +88,6 @@ function ServiceInfoPage() {
           })}
         </div>
       </div>
-
-      <Link href="/" passHref>
-        <a className="text-blue-500 mt-8">Back Home</a>
-      </Link>
-
     </div>
   </div>;
 }

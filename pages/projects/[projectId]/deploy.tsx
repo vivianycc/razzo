@@ -1,9 +1,8 @@
 import PageHead from '@components/PageHead';
-import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { gql, useMutation, useQuery } from '@apollo/client';
 import { useState } from 'react';
-import { router } from 'next/client';
+import TopNav from '@components/TopNav';
 
 const QUERY_GIT_NAMESPACE = gql`
     query {
@@ -55,12 +54,13 @@ const CREATE_SERVICE = gql`
 function DeployNewServicePage() {
 
   const projectId = useRouter().query.projectId;
+  const router = useRouter();
 
   const [namespaceID, setNamespaceID] = useState();
 
   const {
     data: gitNamespaces,
-    loading: isLoadingGitNamesapces
+    loading: isLoadingGitNamespaces
   } = useQuery(QUERY_GIT_NAMESPACE,
     { fetchPolicy: 'network-only' });
 
@@ -77,15 +77,15 @@ function DeployNewServicePage() {
 
   return <div>
     <PageHead title={projectId + ' | Razzo'}/>
+    <TopNav/>
     <div
       className="w-screen h-screen flex justify-center
      items-center flex-col">
-      <img src="/logo.png" className="w-36" alt="razzo"/>
       <div className="w-96">
 
         <div className="mt-8">
           <p className="font-extrabold">Git Accounts</p>
-          {isLoadingGitNamesapces ? <p>Loading...</p>
+          {isLoadingGitNamespaces ? <p>Loading...</p>
             : gitNamespaces?.gitNamespaces.map(
               (ns: any) => <div
                 key={ns.id}
@@ -123,11 +123,7 @@ function DeployNewServicePage() {
                 </p>)}
           </div>
         </div>
-
       </div>
-      <Link href="/" passHref>
-        <a className="text-blue-500 mt-8">Back Home</a>
-      </Link>
     </div>
   </div>;
 }

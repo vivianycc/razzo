@@ -1,16 +1,16 @@
 import GithubButton from '@components/GithubButton';
 import PageHead from '@components/PageHead';
 import Link from 'next/link';
-import { GitHub } from 'react-feather';
+import TopNav from '@components/TopNav';
 import type { NextPage } from 'next';
 
 const Home: NextPage = () => {
   return <div>
     <PageHead/>
+    <TopNav/>
     <div
       className="w-screen h-screen flex justify-center
      items-center flex-col">
-      <img src="/logo.png" className="w-36" alt="razzo"/>
       <div className="flex p-8">
         <GithubButton/>
       </div>
@@ -27,7 +27,6 @@ const Home: NextPage = () => {
           <div
             className="bg-[#171515] flex py-2 px-4 rounded-lg
              items-center cursor-pointer">
-            <GitHub color="white" className="mr-2" size={20}/>
             <span className="text-white font-bold text-sm">
               Install Razzo GitHub App
             </span>

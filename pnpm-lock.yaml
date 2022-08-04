@@ -2,6 +2,7 @@ lockfileVersion: 5.4
 
 specifiers:
   '@apollo/client': ^3.6.9
+  '@heroicons/react': ^1.0.6
   '@types/node': 18.0.0
   '@types/react': 18.0.14
   '@types/react-dom': 18.0.5
@@ -19,19 +20,18 @@ specifiers:
   postcss: ^8.4.14
   react: 18.2.0
   react-dom: 18.2.0
-  react-feather: ^2.0.10
   tailwindcss: ^3.1.4
   typescript: 4.7.4
 
 dependencies:
   '@apollo/client': 3.6.9_uewhvjozsd4v3fl37fgyhimo5m
+  '@heroicons/react': 1.0.6_react@18.2.0
   graphql: 16.5.0
   graphql-ws: 5.9.1_graphql@16.5.0
   next: 12.2.0_biqbaboplfbrettd7655fr4n2y
   next-i18next: 11.3.0_24lkarzjpo3wcmj2o6qyrkug4y
   react: 18.2.0
   react-dom: 18.2.0_react@18.2.0
-  react-feather: 2.0.10_react@18.2.0
 
 devDependencies:
   '@types/node': 18.0.0
@@ -119,6 +119,14 @@ packages:
       graphql: ^0.8.0 || ^0.9.0 || ^0.10.0 || ^0.11.0 || ^0.12.0 || ^0.13.0 || ^14.0.0 || ^15.0.0 || ^16.0.0
     dependencies:
       graphql: 16.5.0
+    dev: false
+
+  /@heroicons/react/1.0.6_react@18.2.0:
+    resolution: {integrity: sha512-JJCXydOFWMDpCP4q13iEplA503MQO3xLoZiKum+955ZCtHINWnx26CUxVxxFQu/uLb4LW3ge15ZpzIkXKkJ8oQ==}
+    peerDependencies:
+      react: '>= 16'
+    dependencies:
+      react: 18.2.0
     dev: false
 
   /@humanwhocodes/config-array/0.9.5:
@@ -2099,15 +2107,6 @@ packages:
       loose-envify: 1.4.0
       react: 18.2.0
       scheduler: 0.23.0
-    dev: false
-
-  /react-feather/2.0.10_react@18.2.0:
-    resolution: {integrity: sha512-BLhukwJ+Z92Nmdcs+EMw6dy1Z/VLiJTzEQACDUEnWMClhYnFykJCGWQx+NmwP/qQHGX/5CzQ+TGi8ofg2+HzVQ==}
-    peerDependencies:
-      react: '>=16.8.6'
-    dependencies:
-      prop-types: 15.8.1
-      react: 18.2.0
     dev: false
 
   /react-i18next/11.18.1_76fbphthii3jxinh3ka5k7ds7q:

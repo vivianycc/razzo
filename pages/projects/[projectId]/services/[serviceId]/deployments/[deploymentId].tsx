@@ -1,7 +1,7 @@
 import BuildLogs from '@components/BuildLogs';
 import PageHead from '@components/PageHead';
-import Link from 'next/link';
 import { useRouter } from 'next/router';
+import TopNav from '@components/TopNav';
 
 function DeploymentInfoPage() {
 
@@ -11,10 +11,10 @@ function DeploymentInfoPage() {
 
   return <div>
     <PageHead title={serviceId + ' | Razzo'}/>
+    <TopNav/>
     <div
       className="w-screen flex justify-center
      items-center flex-col">
-      <img src="/logo.png" className="w-36" alt="razzo"/>
 
       <div className="mt-8">
         <p>Deployment Info Page</p>
@@ -27,11 +27,6 @@ function DeploymentInfoPage() {
         <p className="mb-4">Example Build Log</p>
         <BuildLogs deploymentId={deploymentId}/>
       </div>
-
-      <Link href="/" passHref>
-        <a className="text-blue-500 mt-8">Back Home</a>
-      </Link>
-
     </div>
   </div>;
 }
