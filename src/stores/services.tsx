@@ -51,7 +51,10 @@ const QUERY_PROJECT = gql`
 
 export function useServiceData(serviceId: string | undefined) {
 
-  const { data } = useQuery(QUERY_PROJECT, { variables: { serviceId } });
+  const { data } = useQuery(QUERY_PROJECT, {
+    variables: { serviceId },
+    skip: !serviceId
+  });
   const serviceSnap = useSnapshot(serviceStore);
 
   useEffect(() => {
@@ -78,7 +81,10 @@ const QUERY_SERVICES = gql`
 `;
 
 export function useServicesData(projectId: string | undefined) {
-  const { data } = useQuery(QUERY_SERVICES, { variables: { projectId } });
+  const { data } = useQuery(QUERY_SERVICES, {
+    variables: { projectId },
+    skip: !projectId
+  });
   const serviceSnap = useSnapshot(serviceStore);
   const serviceMapping = useSnapshot(projectServiceMapping);
   const projectServiceIds = projectId
