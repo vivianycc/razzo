@@ -1,33 +1,14 @@
 import PageHead from '@components/PageHead';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
-import { gql, useQuery } from '@apollo/client';
 import TopNav from '@components/TopNav';
-
-const QUERY_SERVICES = gql`
-    query ($projectId: ObjectID!) {
-        services(projectID: $projectId) {
-            edges {
-                node {
-                    _id
-                    name
-                    gitProvider
-                    repoOwner
-                    repoName
-                }
-            }
-        }
-    }
-`;
+import { useServicesData } from '@stores/services';
 
 function ProjectInfoPage() {
 
-  const projectId = useRouter().query.projectId;
+  const projectId = useRouter().query.projectId as string | undefined;
 
-  const { data } = useQuery(QUERY_SERVICES, {
-    fetchPolicy: 'network-only',
-    variables: { projectId }
-  });
+  const { services } = useServicesData(projectId);
 
   return <div>
     <PageHead title={projectId + ' | Razzo'}/>
@@ -46,15 +27,15 @@ function ProjectInfoPage() {
       <div>
         <p>Services of this Project</p>
         <div>
-          {data && data.services.edges.map(({ node }: any) => {
-            return <div key={node._id}>
+          {services.map(s => {
+            return <div key={s._id}>
               <Link
                 href="/projects/[projectId]/services/[serviceId]"
-                as={`/projects/${projectId}/services/${node._id}`}
+                as={`/projects/${projectId}/services/${s._id}`}
               >
                 <div>
-                  <p className="text-blue-500 mt-8">{node.name}</p>
-                  <p>{node.gitProvider}/{node.repoOwner}/{node.repoName}</p>
+                  <p className="text-blue-500 mt-8">{s.name}</p>
+                  <p>{s.gitProvider}/{s.repoOwner}/{s.repoName}</p>
                 </div>
               </Link>
             </div>;

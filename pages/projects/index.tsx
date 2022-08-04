@@ -1,31 +1,10 @@
 import PageHead from '@components/PageHead';
 import Link from 'next/link';
-import { gql, useQuery } from '@apollo/client';
 import TopNav from '@components/TopNav';
-
-const QUERY_PROJECTS = gql`
-    query {
-        projects {
-            edges {
-                node {
-                    _id
-                    name
-                    owner {
-                        _id
-                        email
-                        name
-                    }
-                }
-            }
-        }
-    }
-`;
+import { useProjectsData } from '@stores/projects';
 
 function ProjectsPage() {
-
-  const { data } = useQuery(QUERY_PROJECTS,
-    { fetchPolicy: 'cache-and-network' });
-
+  const { projects } = useProjectsData();
   return <div>
     <PageHead title="Projects | Razzo"/>
     <TopNav/>
@@ -37,13 +16,13 @@ function ProjectsPage() {
         <p>Project List Page</p>
       </div>
 
-      {data && data.projects && data.projects.edges.map(({ node }: any) => {
-        return <div key={node._id}>
+      {Array.from(projects.values()).map(project => {
+        return <div key={project._id}>
           <Link
             href="/projects/[projectId]"
-            as={`/projects/${node._id}`}
+            as={`/projects/${project._id}`}
           >
-            <a className="text-blue-500 mt-8">{node.name}</a>
+            <a className="text-blue-500 mt-8">{project.name}</a>
           </Link>
         </div>;
       })}

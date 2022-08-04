@@ -1,6 +1,8 @@
 import { useRouter } from 'next/router';
 import Link from 'next/link';
 import { ArrowRightIcon } from '@heroicons/react/solid';
+import { useProjectData } from '@stores/projects';
+import { useServiceData } from '@stores/services';
 
 function TopNav() {
   const router = useRouter();
@@ -9,6 +11,8 @@ function TopNav() {
     serviceId,
     deploymentId
   } = router.query;
+  const { project } = useProjectData(projectId as string | undefined);
+  const { service } = useServiceData(serviceId as string | undefined);
   return <div
     className="flex container lg:max-w-[1248px] mx-auto py-2 items-center">
     <Link href="/projects" passHref>
@@ -19,7 +23,7 @@ function TopNav() {
     {projectId && <>
       <ArrowRightIcon width={24} color="#D2C4C2" className="mx-4"/>
       <Link href="/projects/[projectId]" as={`/projects/${projectId}`} passHref>
-        <a>{projectId}</a>
+        <a>{project?.name}</a>
       </Link>
     </>}
     {serviceId && <>
@@ -28,7 +32,7 @@ function TopNav() {
         href="/projects/[projectId]/services/[serviceId]"
         as={`/projects/${projectId}/services/${serviceId}`}
         passHref>
-        <a>{serviceId}</a>
+        <a>{service?.name}</a>
       </Link>
     </>}
     {deploymentId && <>

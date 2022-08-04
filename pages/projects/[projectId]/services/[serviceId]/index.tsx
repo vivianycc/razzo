@@ -2,7 +2,6 @@ import PageHead from '@components/PageHead';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { gql, useMutation, useQuery } from '@apollo/client';
-import { router } from 'next/client';
 import TopNav from '@components/TopNav';
 
 const QUERY_DEPLOYMENTS = gql`
@@ -29,8 +28,11 @@ const DELETE_SERVICE = gql`
 
 function ServiceInfoPage() {
 
-  const projectId = useRouter().query.projectId;
-  const serviceId = useRouter().query.serviceId;
+  const router = useRouter();
+  const {
+    projectId,
+    serviceId
+  } = router.query;
 
   const { data } = useQuery(QUERY_DEPLOYMENTS, {
     fetchPolicy: 'network-only',
