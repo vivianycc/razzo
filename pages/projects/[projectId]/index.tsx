@@ -4,13 +4,23 @@ import { useRouter } from 'next/router';
 import TopNav from '@components/TopNav';
 import { useServicesData } from '@stores/services';
 import { useProjectData } from '@stores/projects';
+import { gql, useMutation } from '@apollo/client';
+
+const DELETE_PROJECT = gql`
+    mutation($projectId: ObjectID!) {
+        deleteProject(_id: $projectId)
+    }
+`;
 
 function ProjectInfoPage() {
 
   const projectId = useRouter().query.projectId as string | undefined;
 
+  const router = useRouter();
   const { project } = useProjectData(projectId);
   const { services } = useServicesData(projectId);
+
+  const [deleteProject] = useMutation(DELETE_PROJECT);
 
   return <div>
     <PageHead title={(project?.name || projectId) + ' | Razzo'}/>
@@ -18,6 +28,18 @@ function ProjectInfoPage() {
     <div
       className="w-screen h-screen flex justify-center
      items-center flex-col">
+
+      <div className="my-8">
+        <p
+          className="text-red-500 cursor-pointer"
+          onClick={async () => {
+            await deleteProject({ variables: { projectId } });
+            await router.push('/projects/[projectId]',
+              `/projects/${projectId}`);
+          }}>
+          Delete Project
+        </p>
+      </div>
 
       <Link
         href="/projects/[projectId]/deploy"
