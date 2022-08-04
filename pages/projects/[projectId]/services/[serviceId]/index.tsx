@@ -3,6 +3,8 @@ import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { gql, useMutation, useQuery } from '@apollo/client';
 import TopNav from '@components/TopNav';
+import { useServiceData } from '@stores/services';
+import { useProjectData } from '@stores/projects';
 
 const QUERY_DEPLOYMENTS = gql`
     query ($serviceID: ObjectID!) {
@@ -33,6 +35,8 @@ function ServiceInfoPage() {
     projectId,
     serviceId
   } = router.query;
+  const { project } = useProjectData(projectId as string | undefined);
+  const { service } = useServiceData(serviceId as string | undefined);
 
   const { data } = useQuery(QUERY_DEPLOYMENTS, {
     fetchPolicy: 'network-only',
@@ -44,7 +48,10 @@ function ServiceInfoPage() {
   const deployments = data?.deployments?.edges.map((e: any) => e.node);
 
   return <div>
-    <PageHead title={serviceId + ' | Razzo'}/>
+    <PageHead
+      title={(service?.name || serviceId) + ' | ' +
+        (project?.name || projectId) + ' | Razzo'}
+    />
     <TopNav/>
     <div
       className="w-screen h-screen flex justify-center

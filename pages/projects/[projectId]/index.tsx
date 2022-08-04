@@ -3,15 +3,17 @@ import Link from 'next/link';
 import { useRouter } from 'next/router';
 import TopNav from '@components/TopNav';
 import { useServicesData } from '@stores/services';
+import { useProjectData } from '@stores/projects';
 
 function ProjectInfoPage() {
 
   const projectId = useRouter().query.projectId as string | undefined;
 
+  const { project } = useProjectData(projectId);
   const { services } = useServicesData(projectId);
 
   return <div>
-    <PageHead title={projectId + ' | Razzo'}/>
+    <PageHead title={(project?.name || projectId) + ' | Razzo'}/>
     <TopNav/>
     <div
       className="w-screen h-screen flex justify-center
