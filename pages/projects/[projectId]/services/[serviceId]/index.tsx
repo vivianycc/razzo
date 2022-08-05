@@ -1,26 +1,11 @@
 import PageHead from '@components/PageHead';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
-import { gql, useMutation, useQuery } from '@apollo/client';
+import { gql, useMutation } from '@apollo/client';
 import TopNav from '@components/TopNav';
 import { useServiceData } from '@stores/services';
 import { useProjectData } from '@stores/projects';
-
-const QUERY_DEPLOYMENTS = gql`
-    query ($serviceID: ObjectID!) {
-        deployments(serviceID: $serviceID) {
-            edges {
-                node {
-                    _id
-                    status
-                    commitMessage
-                    commitSHA
-                    createdAt
-                }
-            }
-        }
-    }
-`;
+import { useDeploymentsData } from '@stores/deployment';
 
 const DELETE_SERVICE = gql`
     mutation ($serviceID: ObjectID!) {
@@ -37,15 +22,9 @@ function ServiceInfoPage() {
   } = router.query;
   const { project } = useProjectData(projectId as string | undefined);
   const { service } = useServiceData(serviceId as string | undefined);
-
-  const { data } = useQuery(QUERY_DEPLOYMENTS, {
-    fetchPolicy: 'network-only',
-    variables: { serviceID: serviceId }
-  });
+  const { deployments } = useDeploymentsData(serviceId as string | undefined);
 
   const [deleteService] = useMutation(DELETE_SERVICE);
-
-  const deployments = data?.deployments?.edges.map((e: any) => e.node);
 
   return <div>
     <PageHead

@@ -23,7 +23,7 @@ function BuildLogs(props: Props) {
 
   return <div
     className="rounded-lg p-8 bg-gray-100 font-mono
-    text-stone-800 leading-8 text-sm mb-12">
+    text-stone-800 leading-8 text-sm">
     {logs.map((log, i) => <p key={i}>
       {log.timestamp.toISOString()} {log.message}
     </p>)}
