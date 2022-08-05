@@ -14,12 +14,16 @@ function BuildLogs(props: Props) {
     deploymentId: props.deploymentId,
     onReceived(log) {
       setLogs(logs => [...logs, log]);
+      window.scroll({
+        top: document.body.scrollHeight,
+        behavior: 'smooth'
+      });
     }
   });
 
   return <div
     className="rounded-lg p-8 bg-gray-100 font-mono
-    text-stone-800 leading-8 text-sm">
+    text-stone-800 leading-8 text-sm mb-12">
     {logs.map((log, i) => <p key={i}>
       {log.timestamp.toISOString()} {log.message}
     </p>)}
