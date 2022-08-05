@@ -57,7 +57,7 @@ function ServiceInfoPage() {
           <div>
             <p className="text-3xl text-primary-900">Recent Deploys</p>
             <div>
-              {deployments?.reverse().map((deployment: any) => {
+              {deployments?.map((deployment: any) => {
                 return <div key={deployment._id}>
                   <Link
                     href={'/projects/[projectId]/services/[serviceId]' +
