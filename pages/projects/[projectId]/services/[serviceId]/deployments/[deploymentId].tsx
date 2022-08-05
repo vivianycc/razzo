@@ -23,7 +23,7 @@ function DeploymentInfoPage() {
         <div className="mr-12">
           <p className="font-bold">Status</p>
           {deployment?.status &&
-            <StatusBadge status={deployment.status}/>}
+            <StatusBadge status={deployment.status} className="mt-2"/>}
         </div>
         <div className="mr-12">
           <p className="font-bold">Duration</p>
