@@ -1,41 +1,43 @@
 type Query {
 
-  """
-  Get users by pagination.
-  """
-  users(skip: Int = 0, limit: Int = 10): UserConnection!
+    """
+    Get users by pagination.
+    """
+    users(skip: Int = 0, limit: Int = 10): UserConnection!
 
-  """
-  Get user data by ID or name.
-  """
-  user(_id: ObjectID, name: String): User!
+    """
+    Get user data by ID or name.
+    """
+    user(_id: ObjectID, name: String): User!
 
-  """
-  Get projects of a user.
-  """
-  projects(skip: Int = 0, limit: Int = 10, ownerID: ObjectID): ProjectConnection!
+    """
+    Get projects of a user.
+    """
+    projects(skip: Int = 0, limit: Int = 10, ownerID: ObjectID): ProjectConnection!
 
-  """
-  Get a project data by ID.
-  """
-  project(_id: ObjectID!): Project!
+    """
+    Get a project data by ID.
+    """
+    project(_id: ObjectID!): Project!
 
-  """
-  Get services of a project.
-  """
-  services(skip: Int = 0, limit: Int = 10, projectID: ObjectID): ServiceConnection!
+    """
+    Get services of a project.
+    """
+    services(skip: Int = 0, limit: Int = 10, projectID: ObjectID): ServiceConnection!
 
-  """
-  Get a service by ID.
-  """
-  service(_id: ObjectID!): Service!
+    """
+    Get a service by ID.
+    """
+    service(_id: ObjectID!): Service!
 
-  """
-  Get deployments of a service.
-  """
-  deployments(skip: Int = 0, limit: Int = 10, serviceID: ObjectID): DeploymentConnection!
+    """
+    Get deployments of a service.
+    """
+    deployments(skip: Int = 0, limit: Int = 10, serviceID: ObjectID): DeploymentConnection!
 
-  gitNamespaces: [GitNamespace!]!
+    gitNamespaces: [GitNamespace!]!
 
-  gitRepositories(gitNamespaceID: Int!, provider: GitProvider!): [GitRepository!]!
+    gitRepositories(gitNamespaceID: Int!, provider: GitProvider!): [GitRepository!]!
+
+    gitRepoBranches(provider: GitProvider!, repoOwner: String!, repoName: String!): [String!]!
 }
