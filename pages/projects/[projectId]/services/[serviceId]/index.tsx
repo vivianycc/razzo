@@ -40,6 +40,15 @@ function ServiceInfoPage() {
           <div className="bg-white p-8 rounded-2xl mb-6">
             <p>project: {projectId}</p>
             <p>service: {serviceId}</p>
+            <p className="font-bold mt-8">Domains</p>
+            {service?.domains.map(
+              d => <a
+                key={d._id}
+                href={'https://' + d.domain}
+                target="_blank"
+                rel="noreferrer">
+                {d.domain}
+              </a>)}
           </div>
           <div className="bg-white p-8 rounded-2xl h-96">
             <p

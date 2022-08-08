@@ -1,5 +1,10 @@
 import Project from '@models/project';
 
+interface Domain {
+  _id: string;
+  domain: string;
+}
+
 interface Service {
   _id: string;
   name: string;
@@ -7,6 +12,7 @@ interface Service {
   repoOwner: string;
   repoName: string;
   project: Project;
+  domains: Domain[];
 }
 
 export default Service;

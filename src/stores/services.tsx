@@ -44,6 +44,10 @@ const QUERY_PROJECT = gql`
             project {
                 _id
             }
+            domains {
+                _id
+                domain
+            }
         }
     }
 `;
@@ -81,6 +85,10 @@ const QUERY_SERVICES = gql`
                     gitProvider
                     repoOwner
                     repoName
+                    domains {
+                        _id
+                        domain
+                    }
                 }
             }
         }
