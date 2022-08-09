@@ -88,6 +88,11 @@ export function useProjectsData() {
       data.projects.edges.map((e: any) => e.node));
   }, [data]);
 
+  useEffect(() => {
+    revalidate().then(res => updateProjectData(
+      res.data.projects.edges.map((e: any) => e.node)));
+  }, []);
+
   return {
     projects: projectSnap,
     revalidate

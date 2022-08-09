@@ -51,6 +51,7 @@ function ProjectActivityListener() {
       const payload = data.payload ? JSON.parse(data.payload) : undefined;
       switch (data.type) {
         case 'BUILD_START':
+          await revalidate.revalidateDeployments(payload.serviceID);
           toast.setToast({
             text: 'Build ' + payload?.buildID + ' started',
             type: 'secondary'
@@ -64,6 +65,7 @@ function ProjectActivityListener() {
           });
           break;
         case 'BUILD_FAILED':
+          await revalidate.revalidateDeployments(payload.serviceID);
           toast.setToast({
             text: 'Build ' + payload?.buildID + ' failed',
             type: 'error'

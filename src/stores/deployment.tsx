@@ -50,7 +50,10 @@ const QUERY_DEPLOYMENTS = gql`
 `;
 
 export function useDeploymentsData(serviceId: string | undefined) {
-  const { data } = useQuery(QUERY_DEPLOYMENTS, {
+  const {
+    data,
+    refetch: revalidate
+  } = useQuery(QUERY_DEPLOYMENTS, {
     variables: { serviceId },
     skip: !serviceId
   });
@@ -67,6 +70,14 @@ export function useDeploymentsData(serviceId: string | undefined) {
         serviceId
       })));
   }, [data]);
+
+  useEffect(() => {
+    if (serviceId) revalidate().then(res => updateDeploymentData(
+      res.data.deployments.edges.map((e: any) => ({
+        ...e.node,
+        serviceId
+      }))));
+  }, []);
 
   const deployments = useMemo(() => {
     const res: Deployment[] = [];

@@ -96,7 +96,10 @@ const QUERY_SERVICES = gql`
 `;
 
 export function useServicesData(projectId: string | undefined) {
-  const { data } = useQuery(QUERY_SERVICES, {
+  const {
+    data,
+    refetch: revalidate
+  } = useQuery(QUERY_SERVICES, {
     variables: { projectId },
     skip: !projectId
   });
@@ -115,6 +118,16 @@ export function useServicesData(projectId: string | undefined) {
         project: { _id: projectId }
       })));
   }, [data]);
+
+  useEffect(() => {
+    if (projectId) revalidate().then(res => {
+      updateServiceData(
+        res.data.services.edges.map((e: any) => ({
+          ...e.node,
+          project: { _id: projectId }
+        })));
+    });
+  }, []);
 
   const services = useMemo(() => {
     const res: Service[] = [];
