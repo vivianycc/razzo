@@ -14,7 +14,8 @@ function TopNav() {
   const { project } = useProjectData(projectId as string | undefined);
   const { service } = useServiceData(serviceId as string | undefined);
   return <div
-    className="flex container lg:max-w-[1248px] mx-auto py-2 items-center">
+    className="flex container lg:max-w-[1248px]
+    mx-auto py-4 items-center px-12">
     <Link href="/projects" passHref>
       <a>
         <img src="/logo-s.svg" className="w-16" alt="razzo"/>

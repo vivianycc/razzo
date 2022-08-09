@@ -7,7 +7,6 @@ import StatusBadge from '@components/StatusBadge';
 
 function DeploymentInfoPage() {
 
-  const projectId = useRouter().query.projectId;
   const serviceId = useRouter().query.serviceId;
   const deploymentId = useRouter().query.deploymentId as string;
   const { deployments } = useDeploymentsData(serviceId as string | undefined);
@@ -17,7 +16,9 @@ function DeploymentInfoPage() {
   return <div>
     <PageHead title={serviceId + ' | Razzo'}/>
     <TopNav/>
-    <div className="container lg:max-w-[1248px] mx-auto py-2 items-center">
+    <div
+      className="container lg:max-w-[1248px] mx-auto
+    py-2 items-center px-12">
 
       <div className="my-12 bg-white p-8 rounded-2xl flex">
         <div className="mr-12">

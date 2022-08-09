@@ -33,7 +33,7 @@ function ServiceInfoPage() {
         (project?.name || projectId) + ' | Razzo'}
     />
     <TopNav/>
-    <div className="container lg:max-w-[1248px] mx-auto py-2 mb-16">
+    <div className="container lg:max-w-[1248px] mx-auto py-2 mb-16 px-12">
       <p className="text-5xl mt-8 mb-12">{service?.name}</p>
       <div className="flex gap-6">
         <div>
