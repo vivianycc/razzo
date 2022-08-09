@@ -162,7 +162,7 @@ function DeployNewServicePage() {
                 onChange={e => setRepoKeyword(e.target.value)}
               />
             </div>
-            <div className="overflow-y-scroll h-96 mt-4">
+            <div className="overflow-y-scroll max-h-[96rem] mt-4">
               {isLoadingGitRepos ? <Spinner/>
                 : gitRepositories?.gitRepositories.filter(
                   (repo: any) => repo.name.includes(repoKeyword))
@@ -193,11 +193,7 @@ function DeployNewServicePage() {
                   <Select value={branch} onChange={v => setBranch(v as string)}>
                     {gitRepoBranches?.gitRepoBranches.map(
                       (branchName: string) =>
-                        <Select.Option
-                          key={branchName}
-                          value={branchName}
-                          className="cursor-pointer"
-                          onClick={() => setBranch(branchName)}>
+                        <Select.Option key={branchName} value={branchName}>
                           {branchName}
                         </Select.Option>)}
                   </Select>}
