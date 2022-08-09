@@ -45,9 +45,10 @@ function ServiceInfoPage() {
               d => <a
                 key={d._id}
                 href={'https://' + d.domain}
+                className="text-blue-500"
                 target="_blank"
                 rel="noreferrer">
-                {d.domain}
+                <p>{d.domain}</p>
               </a>)}
           </div>
           <div className="bg-white p-8 rounded-2xl h-96">
