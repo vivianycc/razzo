@@ -1,3 +1,4 @@
 type Subscription {
-  buildLogReceived(deploymentID: ObjectID!): Log!
+    buildLogReceived(deploymentID: ObjectID!): Log!
+    projectActivityReceived(projectId: ObjectID!): ProjectActivity!
 }

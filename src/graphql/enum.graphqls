@@ -39,3 +39,11 @@ enum GitNamespaceType {
     USER
     ORGANIZATION
 }
+
+enum ProjectActivityType {
+  BUILD_START
+  BUILD_SUCCESS
+  BUILD_FAILED
+  SERVICE_CREATED
+  SERVICE_DELETED
+}

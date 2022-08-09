@@ -14,7 +14,16 @@ type Mutation {
     gitProvider: GitProvider!,
     repoOwner: String!,
     repoName: String!,
-    branchName: String!
+
+    """
+    If the service is not in the root of the repo, specify the path to the service.
+    """
+    rootDirectory: String,
+
+    """
+    Which branch will trigger the build, will use default branch if not specified.
+    """
+    branchName: String
   ): Service!
 
   """
