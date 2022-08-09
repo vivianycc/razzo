@@ -3,7 +3,7 @@ import { useRouter } from 'next/router';
 import { gql, useMutation, useQuery } from '@apollo/client';
 import { useEffect, useState } from 'react';
 import TopNav from '@components/TopNav';
-import { Input, Select, Spinner } from '@geist-ui/core';
+import { Button, Input, Select, Spinner } from '@geist-ui/core';
 
 const QUERY_GIT_NAMESPACE = gql`
     query {
@@ -72,10 +72,7 @@ function DeployNewServicePage() {
   const [branch, setBranch] = useState<string>();
   const [repoKeyword, setRepoKeyword] = useState<string>('');
 
-  const {
-    data: gitNamespaces,
-    loading: isLoadingGitNamespaces
-  } = useQuery(QUERY_GIT_NAMESPACE,
+  const { data: gitNamespaces, } = useQuery(QUERY_GIT_NAMESPACE,
     { fetchPolicy: 'network-only' });
 
   const {
@@ -99,7 +96,7 @@ function DeployNewServicePage() {
     skip: !repo
   });
 
-  const [createService] = useMutation(CREATE_SERVICE);
+  const [createService, { loading: isCreating }] = useMutation(CREATE_SERVICE);
 
   async function submit() {
     if (!repo) return;
@@ -131,7 +128,7 @@ function DeployNewServicePage() {
   return <div>
     <PageHead title={projectId + ' | Razzo'}/>
     <TopNav/>
-    <div className="container lg:max-w-[1248px] mx-auto py-2 mb-16">
+    <div className="container lg:max-w-[1248px] mx-auto py-2 mb-16 px-12">
       <p className="text-5xl mt-8 mb-12">Deploy New Service</p>
       <div className="flex gap-6">
         <div>
@@ -200,12 +197,9 @@ function DeployNewServicePage() {
               </div>
             </div>
 
-            {(repo && branch) && <button
-              onClick={submit}
-              className="bg-stone-700 text-white px-4 py-2 rounded-lg"
-            >
+            {(repo && branch) && <Button loading={isCreating} onClick={submit}>
               Deploy
-            </button>}
+            </Button>}
           </div>
         </div>
       </div>
