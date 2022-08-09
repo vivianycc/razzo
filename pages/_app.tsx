@@ -1,8 +1,10 @@
 import '@styles/globals.css';
-import { ApolloProvider } from '@apollo/client';
+import { ApolloProvider, gql, useSubscription } from '@apollo/client';
 import { appWithTranslation } from 'next-i18next';
 import { useEffect } from 'react';
-import { GeistProvider } from '@geist-ui/core';
+import { GeistProvider, useToasts } from '@geist-ui/core';
+import { useRouter } from 'next/router';
+import useRevalidate from '@hooks/useRevalidate';
 import type { AppProps } from 'next/app';
 import client from '@/apollo-client';
 
@@ -22,9 +24,56 @@ function MyApp({
 
   return <ApolloProvider client={client}>
     <GeistProvider>
+      <ProjectActivityListener/>
       <Component {...pageProps} />
     </GeistProvider>
   </ApolloProvider>;
+}
+
+function ProjectActivityListener() {
+
+  const projectId = useRouter().query.projectId as string | undefined;
+  const revalidate = useRevalidate();
+
+  const toast = useToasts();
+
+  useSubscription(gql`
+      subscription ($projectId: ObjectID!) {
+          projectActivityReceived(projectId: $projectId) {
+              type
+              payload
+          }
+      }`, {
+    variables: { projectId },
+    skip: !projectId,
+    onSubscriptionData: async ({ subscriptionData }: any) => {
+      const data = subscriptionData.data.projectActivityReceived;
+      const payload = data.payload ? JSON.parse(data.payload) : undefined;
+      switch (data.type) {
+        case 'BUILD_START':
+          toast.setToast({
+            text: 'Build ' + payload?.buildID + ' started',
+            type: 'secondary'
+          });
+          break;
+        case 'BUILD_SUCCESS':
+          await revalidate.revalidateDeployments(payload.serviceID);
+          toast.setToast({
+            text: 'Build ' + payload?.buildID + ' build successes',
+            type: 'success'
+          });
+          break;
+        case 'BUILD_FAILED':
+          toast.setToast({
+            text: 'Build ' + payload?.buildID + ' failed',
+            type: 'error'
+          });
+          break;
+      }
+    },
+  });
+
+  return null;
 }
 
 export default appWithTranslation(MyApp);
