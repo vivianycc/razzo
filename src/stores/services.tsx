@@ -59,7 +59,7 @@ export function useServiceData(serviceId: string | undefined) {
 
   const {
     data,
-    refetch: revalidate
+    refetch
   } = useQuery(QUERY_PROJECT, {
     variables: { serviceId },
     skip: !serviceId || !!cached
@@ -68,6 +68,12 @@ export function useServiceData(serviceId: string | undefined) {
   useEffect(() => {
     if (data?.service) updateServiceData(data.service);
   }, [data]);
+
+  async function revalidate() {
+    const res = await refetch();
+    if (res.data?.service)
+      updateServiceData(res.data.service);
+  }
 
   return {
     service: cached,

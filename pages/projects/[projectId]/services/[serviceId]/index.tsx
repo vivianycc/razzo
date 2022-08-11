@@ -7,6 +7,8 @@ import { useServiceData } from '@stores/services';
 import { useProjectData } from '@stores/projects';
 import { useDeploymentsData } from '@stores/deployment';
 import StatusBadge from '@components/StatusBadge';
+import { Button, Input, useToasts } from '@geist-ui/core';
+import { useState } from 'react';
 
 const DELETE_SERVICE = gql`
     mutation ($serviceID: ObjectID!) {
@@ -14,16 +16,52 @@ const DELETE_SERVICE = gql`
     }
 `;
 
+const CREATE_DOMAIN = gql`
+    mutation ($projectID: ObjectID!, $serviceID: ObjectID!, $domain: String!) {
+        addDomain(
+            projectID: $projectID,
+            serviceID: $serviceID,
+            domain: $domain
+        ) {
+            _id
+            domain
+            projectID
+            serviceID
+            createdAt
+        }
+    }
+`;
+
+const DELETE_DOMAIN = gql`
+    mutation ($projectID: ObjectID!, $serviceID: ObjectID!, $domain: String!) {
+        removeDomain(
+            projectID: $projectID,
+            serviceID: $serviceID,
+            domain: $domain
+        )
+    }
+`;
+
 function ServiceInfoPage() {
 
   const router = useRouter();
+  const toast = useToasts();
   const {
     projectId,
     serviceId
   } = router.query;
   const { project } = useProjectData(projectId as string | undefined);
-  const { service } = useServiceData(serviceId as string | undefined);
+  const {
+    service,
+    revalidate: revalidateService
+  } = useServiceData(serviceId as string | undefined);
   const { deployments } = useDeploymentsData(serviceId as string | undefined);
+
+  const [domainInput, setDomainInput] = useState('');
+  const [createDomain, { loading: isCreatingDomain }] = useMutation(
+    CREATE_DOMAIN);
+  const [deleteDomain, { loading: isDeletingDomain }] = useMutation(
+    DELETE_DOMAIN);
 
   const [deleteService] = useMutation(DELETE_SERVICE);
 
@@ -42,14 +80,52 @@ function ServiceInfoPage() {
             <p>service: {serviceId}</p>
             <p className="font-bold mt-8">Domains</p>
             {service?.domains.map(
-              d => <a
+              d => <div
                 key={d._id}
-                href={'https://' + d.domain}
-                className="text-blue-500"
-                target="_blank"
-                rel="noreferrer">
-                <p>{d.domain}</p>
-              </a>)}
+              >
+                <a
+                  href={'https://' + d.domain}
+                  className="text-blue-500"
+                  target="_blank"
+                  rel="noreferrer">
+                  <p>{d.domain}</p>
+                </a>
+                <Button
+                  loading={isDeletingDomain}
+                  onClick={async () => {
+                    await deleteDomain({
+                      variables: {
+                        projectID: projectId as string,
+                        serviceID: serviceId as string,
+                        domain: d.domain
+                      }
+                    });
+                    await revalidateService();
+                  }}>Delete</Button>
+              </div>)}
+            <Input
+              value={domainInput}
+              onChange={e => setDomainInput(e.target.value)}
+            />
+            <Button
+              loading={isCreatingDomain}
+              onClick={async () => {
+                try {
+                  await createDomain({
+                    variables: {
+                      projectID: projectId as string,
+                      serviceID: serviceId as string,
+                      domain: domainInput
+                    }
+                  });
+                  await revalidateService();
+                } catch (err: any) {
+                  toast.setToast({
+                    type: 'error',
+                    text: err.message
+                  });
+                }
+              }}>Add domain</Button>
           </div>
           <div className="bg-white p-8 rounded-2xl h-96">
             <p

@@ -1,38 +1,42 @@
 type Mutation {
-  """
-  create project
-  """
-  createProject(name: String!): Project!
-
-  """
-  create a new service in a project
-  """
-  createService(
-    name: String!,
-    template: ServiceTemplate!,
-    projectID: ObjectID!,
-    gitProvider: GitProvider!,
-    repoOwner: String!,
-    repoName: String!,
+    """
+    create project
+    """
+    createProject(name: String!): Project!
 
     """
-    If the service is not in the root of the repo, specify the path to the service.
+    create a new service in a project
     """
-    rootDirectory: String,
+    createService(
+        name: String!,
+        template: ServiceTemplate!,
+        projectID: ObjectID!,
+        gitProvider: GitProvider!,
+        repoOwner: String!,
+        repoName: String!,
+
+        """
+        If the service is not in the root of the repo, specify the path to the service.
+        """
+        rootDirectory: String,
+
+        """
+        Which branch will trigger the build, will use default branch if not specified.
+        """
+        branchName: String
+    ): Service!
 
     """
-    Which branch will trigger the build, will use default branch if not specified.
+    Delete a service
     """
-    branchName: String
-  ): Service!
+    deleteService(_id: ObjectID!): Boolean!
 
-  """
-  Delete a service
-  """
-  deleteService(_id: ObjectID!): Boolean!
+    """
+    Delete a project
+    """
+    deleteProject(_id: ObjectID!): Boolean!
 
-  """
-  Delete a project
-  """
-  deleteProject(_id: ObjectID!): Boolean!
+    addDomain(projectID: ObjectID!, serviceID: ObjectID!, domain: String!): Domain!
+
+    removeDomain(projectID: ObjectID!, serviceID: ObjectID!, domain: String!): Boolean!
 }
