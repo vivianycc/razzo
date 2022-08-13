@@ -3,6 +3,7 @@ import Project from '@models/project';
 interface Domain {
   _id: string;
   domain: string;
+  status: string;
 }
 
 interface Service {

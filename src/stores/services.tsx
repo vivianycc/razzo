@@ -47,6 +47,7 @@ const QUERY_PROJECT = gql`
             domains {
                 _id
                 domain
+                status
             }
         }
     }

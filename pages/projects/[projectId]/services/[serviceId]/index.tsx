@@ -89,6 +89,7 @@ function ServiceInfoPage() {
                   target="_blank"
                   rel="noreferrer">
                   <p>{d.domain}</p>
+                  <p>{d.status}</p>
                 </a>
                 <Button
                   loading={isDeletingDomain}

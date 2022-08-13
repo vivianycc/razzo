@@ -1,38 +1,38 @@
 enum BuildJobStatus {
-  PENDING
-  RUNNING
-  SUCCESS
-  FAILED
+    PENDING
+    RUNNING
+    SUCCESS
+    FAILED
 }
 
 enum ServiceTemplate {
-  REDIS
-  MONGODB
-  MYSQL
-  POSTGRESQL
-  GIT
+    REDIS
+    MONGODB
+    MYSQL
+    POSTGRESQL
+    GIT
 }
 
 enum DeploymentStatus {
-  PENDING
-  BUILDING
-  DEPLOYING
-  RUNNING
-  REMOVED
-  CRASHED
+    PENDING
+    BUILDING
+    DEPLOYING
+    RUNNING
+    REMOVED
+    CRASHED
 }
 
 enum LogLevel {
-  DEBUG
-  INFO
-  WARN
-  ERROR
+    DEBUG
+    INFO
+    WARN
+    ERROR
 }
 
 enum GitProvider {
-  GITHUB
-  GITLAB
-  BITBUCKET
+    GITHUB
+    GITLAB
+    BITBUCKET
 }
 
 enum GitNamespaceType {
@@ -41,9 +41,15 @@ enum GitNamespaceType {
 }
 
 enum ProjectActivityType {
-  BUILD_START
-  BUILD_SUCCESS
-  BUILD_FAILED
-  SERVICE_CREATED
-  SERVICE_DELETED
+    BUILD_START
+    BUILD_SUCCESS
+    BUILD_FAILED
+    SERVICE_CREATED
+    SERVICE_DELETED
+}
+
+enum DomainStatus {
+    INVALID_DNS
+    PROVISIONING
+    PROVISIONED
 }
