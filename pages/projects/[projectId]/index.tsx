@@ -1,12 +1,12 @@
-import PageHead from "@components/PageHead";
-import Link from "next/link";
-import { useRouter } from "next/router";
-import TopNav from "@components/TopNav";
-import ServiceCard from "@components/ServiceCard";
-import { useServicesData } from "@stores/services";
-import { useProjectData } from "@stores/projects";
-import { gql, useMutation } from "@apollo/client";
-import { Button, Text } from "@geist-ui/core";
+import PageHead from '@components/PageHead';
+import Link from 'next/link';
+import { useRouter } from 'next/router';
+import TopNav from '@components/TopNav';
+import ServiceCard from '@components/ServiceCard';
+import { useServicesData } from '@stores/services';
+import { useProjectData } from '@stores/projects';
+import { gql, useMutation } from '@apollo/client';
+import { Button, Text } from '@geist-ui/core';
 
 const DELETE_PROJECT = gql`
   mutation ($projectId: ObjectID!) {
@@ -25,7 +25,7 @@ function ProjectInfoPage() {
 
   return (
     <div>
-      <PageHead title={(project?.name || projectId) + " | Razzo"} />
+      <PageHead title={(project?.name || projectId) + ' | Razzo'} />
       <TopNav />
       <div className=" h-screen container lg:max-w-[1248px] mx-auto  px-12">
         <header className="flex justify-between items-center">
@@ -128,7 +128,7 @@ function ProjectInfoPage() {
             onClick={async () => {
               await deleteProject({ variables: { projectId } });
               await router.push(
-                "/projects/[projectId]",
+                '/projects/[projectId]',
                 `/projects/${projectId}`
               );
             }}
