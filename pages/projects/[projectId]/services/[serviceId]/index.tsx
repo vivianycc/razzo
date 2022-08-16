@@ -9,6 +9,7 @@ import { useDeploymentsData } from '@stores/deployment';
 import StatusBadge from '@components/StatusBadge';
 import { Button, Input, useToasts } from '@geist-ui/core';
 import { useState } from 'react';
+import AutoAnimatedList from '@components/AutoAnimatedList';
 
 const DELETE_SERVICE = gql`
     mutation ($serviceID: ObjectID!) {
@@ -143,7 +144,7 @@ function ServiceInfoPage() {
         <div className="bg-white flex-grow p-8 rounded-2xl">
           <div>
             <p className="text-3xl text-primary-900">Recent Deploys</p>
-            <div>
+            <AutoAnimatedList>
               {deployments?.map((deployment: any) => {
                 return <div key={deployment._id}>
                   <Link
@@ -177,7 +178,7 @@ function ServiceInfoPage() {
                   </Link>
                 </div>;
               })}
-            </div>
+            </AutoAnimatedList>
           </div>
         </div>
       </div>

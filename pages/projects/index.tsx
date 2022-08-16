@@ -3,6 +3,7 @@ import Link from 'next/link';
 import TopNav from '@components/TopNav';
 import { useProjectsData } from '@stores/projects';
 import { Button } from '@geist-ui/core';
+import AutoAnimatedList from '@components/AutoAnimatedList';
 
 function ProjectsPage() {
   const { projects } = useProjectsData();
@@ -16,7 +17,7 @@ function ProjectsPage() {
           <Button>Create Project</Button>
         </Link>
       </div>
-      <div className="grid grid-cols-3 gap-8">
+      <AutoAnimatedList className="grid grid-cols-3 gap-8">
         {Array.from(projects.values()).map(project => <Link
           href="/projects/[projectId]"
           key={project._id}
@@ -33,7 +34,7 @@ function ProjectsPage() {
           </div>
         </Link>
         )}
-      </div>
+      </AutoAnimatedList>
     </div>
   </div>;
 }

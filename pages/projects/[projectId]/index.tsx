@@ -7,6 +7,7 @@ import { useServicesData } from '@stores/services';
 import { useProjectData } from '@stores/projects';
 import { gql, useMutation } from '@apollo/client';
 import { Button } from '@geist-ui/core';
+import AutoAnimatedList from '@components/AutoAnimatedList';
 
 const DELETE_PROJECT = gql`
     mutation ($projectId: ObjectID!) {
@@ -103,7 +104,7 @@ function ProjectInfoPage() {
 
         <div>
           <p className="mb-8 mt-16">Services of this Project</p>
-          <div className="grid grid-cols-3 gap-2">
+          <AutoAnimatedList className="grid grid-cols-3 gap-2">
             {services.map((s) => <div key={s._id}>
               <Link
                 href="/projects/[projectId]/services/[serviceId]"
@@ -112,7 +113,7 @@ function ProjectInfoPage() {
                 <ServiceCard service={s}/>
               </Link>
             </div>)}
-          </div>
+          </AutoAnimatedList>
         </div>
         <div className="my-8">
           <p

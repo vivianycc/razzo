@@ -2,6 +2,7 @@ lockfileVersion: 5.4
 
 specifiers:
   '@apollo/client': ^3.6.9
+  '@formkit/auto-animate': 1.0.0-beta.1
   '@geist-ui/core': ^2.3.8
   '@heroicons/react': ^1.0.6
   '@types/node': 18.0.0
@@ -28,6 +29,7 @@ specifiers:
 
 dependencies:
   '@apollo/client': 3.6.9_uewhvjozsd4v3fl37fgyhimo5m
+  '@formkit/auto-animate': 1.0.0-beta.1_react@18.2.0
   '@geist-ui/core': 2.3.8_biqbaboplfbrettd7655fr4n2y
   '@heroicons/react': 1.0.6_react@18.2.0
   classnames: 2.3.1
@@ -118,6 +120,20 @@ packages:
     transitivePeerDependencies:
       - supports-color
     dev: true
+
+  /@formkit/auto-animate/1.0.0-beta.1_react@18.2.0:
+    resolution: {integrity: sha512-I3OWOBaPZKSJL4bsooXI8kC3q7bcgibD2oML0P/Lir6MnbvUe/0/7EH8br024juvM/Ulm9C9xGx9CJUQYrOWSA==}
+    peerDependencies:
+      react: ^16.8.0
+      vue: ^3.0.0
+    peerDependenciesMeta:
+      react:
+        optional: true
+      vue:
+        optional: true
+    dependencies:
+      react: 18.2.0
+    dev: false
 
   /@geist-ui/core/2.3.8_biqbaboplfbrettd7655fr4n2y:
     resolution: {integrity: sha512-OKwGgTA4+fBM41eQbqDoUj4XBycZbYH7Ynrn6LPO5yKX7zeWPu/R7HN3vB4/oHt34VTDQI5sDNb1SirHvNyB5w==}
