@@ -143,7 +143,8 @@ function DeployNewServicePage() {
           <div>
             <p className="text-3xl text-primary-900">Import Git Repository</p>
             <div className="flex mt-8">
-              {(gitNamespaces && namespaceID) && <Select
+              <Select
+                disabled={!gitNamespaces || !namespaceID}
                 value={namespaceID}
                 onChange={v => setNamespaceID(v as string)}>
                 {gitNamespaces?.gitNamespaces.map(
@@ -153,7 +154,7 @@ function DeployNewServicePage() {
                   >
                     {namespace.name}
                   </Select.Option>)}
-              </Select>}
+              </Select>
               <Input
                 w="100%"
                 ml={1}
@@ -185,20 +186,22 @@ function DeployNewServicePage() {
                     </div>)}
             </div>
 
-            <div className="my-8">
+            {repo && <div className="my-8">
               <p className="font-extrabold">Git Branches</p>
               <div className="overflow-y-scroll my-4">
-                {isLoadingGitRepoBranches
-                  ? <Spinner/> :
-                  <Select value={branch} onChange={v => setBranch(v as string)}>
-                    {gitRepoBranches?.gitRepoBranches.map(
-                      (branchName: string) =>
-                        <Select.Option key={branchName} value={branchName}>
-                          {branchName}
-                        </Select.Option>)}
-                  </Select>}
+                <Select
+                  disabled={isLoadingGitRepoBranches}
+                  value={branch}
+                  onChange={v => setBranch(v as string)}
+                >
+                  {gitRepoBranches?.gitRepoBranches.map(
+                    (branchName: string) =>
+                      <Select.Option key={branchName} value={branchName}>
+                        {branchName}
+                      </Select.Option>)}
+                </Select>
               </div>
-            </div>
+            </div>}
 
             {(repo && branch) && <Button loading={isCreating} onClick={submit}>
               Deploy
