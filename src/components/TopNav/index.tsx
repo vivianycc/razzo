@@ -24,7 +24,7 @@ function TopNav() {
     {projectId && <>
       <ArrowRightIcon width={24} color="#D2C4C2" className="mx-4"/>
       <Link href="/projects/[projectId]" as={`/projects/${projectId}`} passHref>
-        <a>{project?.name}</a>
+        <a className="text-stone-800">{project?.name}</a>
       </Link>
     </>}
     {serviceId && <>
@@ -33,7 +33,7 @@ function TopNav() {
         href="/projects/[projectId]/services/[serviceId]"
         as={`/projects/${projectId}/services/${serviceId}`}
         passHref>
-        <a>{service?.name}</a>
+        <a className="text-stone-800">{service?.name}</a>
       </Link>
     </>}
     {deploymentId && <>
@@ -44,7 +44,9 @@ function TopNav() {
         as={`/projects/${projectId}/services/${serviceId
         }/deployments/${deploymentId}`}
         passHref>
-        <a>{deploymentId}</a>
+        <a className="text-stone-800">
+          {deploymentId.slice(deploymentId.length - 6, deploymentId.length)}
+        </a>
       </Link>
     </>}
   </div>;

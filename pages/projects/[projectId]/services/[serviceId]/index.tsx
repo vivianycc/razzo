@@ -156,7 +156,8 @@ function ServiceInfoPage() {
                       <div className="flex-grow">
                         <div className="flex items-center">
                           <p className="text-primary-500 font-bold underline">
-                            {deployment._id}
+                            {deployment._id.slice(deployment._id.length - 6,
+                              deployment._id.length)}
                           </p>
                           <StatusBadge
                             status={deployment.status}
