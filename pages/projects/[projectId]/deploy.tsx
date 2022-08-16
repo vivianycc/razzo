@@ -71,9 +71,17 @@ function DeployNewServicePage() {
   const [repo, setRepo] = useState<any>();
   const [branch, setBranch] = useState<string>();
   const [repoKeyword, setRepoKeyword] = useState<string>('');
+  const [isInstalledApp, setInstalledApp] = useState(true);
 
   const { data: gitNamespaces, } = useQuery(QUERY_GIT_NAMESPACE,
-    { fetchPolicy: 'network-only' });
+    {
+      fetchPolicy: 'network-only',
+      onCompleted: (data) => {
+        if (data.gitNamespaces.length === 0) {
+          setInstalledApp(false);
+        }
+      }
+    });
 
   const {
     data: gitRepositories,
@@ -92,6 +100,9 @@ function DeployNewServicePage() {
     variables: {
       repoOwner: repo?.url.split('/')[4],
       repoName: repo?.url.split('/')[5],
+    },
+    onCompleted: (data) => {
+      setBranch(data.gitRepoBranches[0]);
     },
     skip: !repo
   });
@@ -121,8 +132,8 @@ function DeployNewServicePage() {
   }
 
   useEffect(() => {
-    if (!namespaceID) setNamespaceID(
-      gitNamespaces?.gitNamespaces[0].id.toString());
+    if (!namespaceID && gitNamespaces?.gitNamespaces.length > 0)
+      setNamespaceID(gitNamespaces?.gitNamespaces[0].id.toString());
   }, [gitNamespaces?.gitNamespaces]);
 
   return <div>
@@ -139,8 +150,32 @@ function DeployNewServicePage() {
         <div className="bg-white flex-grow p-8 rounded-2xl">
           <div>
             <p className="text-3xl text-primary-900">Import Git Repository</p>
-            <div className="flex mt-8">
-              {(gitNamespaces && namespaceID) && <Select
+
+            <div className="my-8 flex">
+              <a
+                onClick={() => {
+                  window.open(
+                    'https://github.com/apps/razzo-app/installations/new',
+                    'test',
+                    `scrollbars=no,resizable=no,status=no,location=no,
+                    toolbar=no,menubar=no,width=720,height=720,
+                    left=${window.innerWidth / 2 - 360},
+                    top=${window.innerHeight / 2 - 360}`
+                  );
+                }}>
+                <div
+                  className="bg-[#171515] flex py-2 px-4 rounded-lg
+             items-center cursor-pointer">
+                  <span className="text-white font-bold text-sm">
+                    Install Razzo GitHub App
+                  </span>
+                </div>
+              </a>
+            </div>
+
+            {isInstalledApp && <div className="flex mt-8">
+              <Select
+                disabled={!gitNamespaces || !namespaceID}
                 value={namespaceID}
                 onChange={v => setNamespaceID(v as string)}>
                 {gitNamespaces?.gitNamespaces.map(
@@ -150,7 +185,7 @@ function DeployNewServicePage() {
                   >
                     {namespace.name}
                   </Select.Option>)}
-              </Select>}
+              </Select>
               <Input
                 w="100%"
                 ml={1}
@@ -158,8 +193,9 @@ function DeployNewServicePage() {
                 value={repoKeyword}
                 onChange={e => setRepoKeyword(e.target.value)}
               />
-            </div>
-            <div className="overflow-y-scroll max-h-[96rem] mt-4">
+            </div>}
+
+            <div className="overflow-y-scroll max-h-[16rem] mt-4">
               {isLoadingGitRepos ? <Spinner/>
                 : gitRepositories?.gitRepositories.filter(
                   (repo: any) => repo.name.includes(repoKeyword))
@@ -182,20 +218,22 @@ function DeployNewServicePage() {
                     </div>)}
             </div>
 
-            <div className="my-8">
+            {repo && <div className="my-8">
               <p className="font-extrabold">Git Branches</p>
               <div className="overflow-y-scroll my-4">
-                {isLoadingGitRepoBranches
-                  ? <Spinner/> :
-                  <Select value={branch} onChange={v => setBranch(v as string)}>
-                    {gitRepoBranches?.gitRepoBranches.map(
-                      (branchName: string) =>
-                        <Select.Option key={branchName} value={branchName}>
-                          {branchName}
-                        </Select.Option>)}
-                  </Select>}
+                <Select
+                  disabled={isLoadingGitRepoBranches}
+                  value={branch}
+                  onChange={v => setBranch(v as string)}
+                >
+                  {gitRepoBranches?.gitRepoBranches.map(
+                    (branchName: string) =>
+                      <Select.Option key={branchName} value={branchName}>
+                        {branchName}
+                      </Select.Option>)}
+                </Select>
               </div>
-            </div>
+            </div>}
 
             {(repo && branch) && <Button loading={isCreating} onClick={submit}>
               Deploy

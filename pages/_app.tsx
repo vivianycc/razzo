@@ -2,7 +2,7 @@ import '@styles/globals.css';
 import { ApolloProvider, gql, useSubscription } from '@apollo/client';
 import { appWithTranslation } from 'next-i18next';
 import { useEffect } from 'react';
-import { GeistProvider, CssBaseline, Themes, useToasts } from '@geist-ui/core';
+import { GeistProvider, Themes, useToasts } from '@geist-ui/core';
 import { useRouter } from 'next/router';
 import useRevalidate from '@hooks/useRevalidate';
 import type { AppProps } from 'next/app';
@@ -11,13 +11,14 @@ import client from '@/apollo-client';
 const theme = Themes.createFromLight({
   type: 'primary',
   palette: { background: '#fbfbfb' },
-  expressiveness: {
-    shadowSmall: '0px 0px 1px rgb(0 0 0/0.1),0px 10px 24px rgb(0 0 0/0.08)',
-  },
+  expressiveness: { shadowSmall: '0px 0px 1px rgb(0 0 0/0.1),0px 10px 24px rgb(0 0 0/0.08)', },
   layout: { radius: '8px' },
 });
 
-function MyApp({ Component, pageProps }: AppProps) {
+function MyApp({
+  Component,
+  pageProps
+}: AppProps) {
   useEffect(() => {
     const tokenInCookie = document.cookie
       .split(';')
@@ -31,8 +32,7 @@ function MyApp({ Component, pageProps }: AppProps) {
   return (
     <ApolloProvider client={client}>
       <GeistProvider themes={[theme]} themeType="primary">
-        <CssBaseline />
-        <ProjectActivityListener />
+        <ProjectActivityListener/>
         <Component {...pageProps} />
       </GeistProvider>
     </ApolloProvider>
@@ -47,12 +47,12 @@ function ProjectActivityListener() {
 
   useSubscription(
     gql`
-      subscription ($projectId: ObjectID!) {
-        projectActivityReceived(projectId: $projectId) {
-          type
-          payload
+        subscription ($projectId: ObjectID!) {
+            projectActivityReceived(projectId: $projectId) {
+                type
+                payload
+            }
         }
-      }
     `,
     {
       variables: { projectId },
