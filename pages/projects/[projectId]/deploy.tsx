@@ -93,6 +93,9 @@ function DeployNewServicePage() {
       repoOwner: repo?.url.split('/')[4],
       repoName: repo?.url.split('/')[5],
     },
+    onCompleted: (data) => {
+      setBranch(data.gitRepoBranches[0]);
+    },
     skip: !repo
   });
 
@@ -159,7 +162,7 @@ function DeployNewServicePage() {
                 onChange={e => setRepoKeyword(e.target.value)}
               />
             </div>
-            <div className="overflow-y-scroll max-h-[96rem] mt-4">
+            <div className="overflow-y-scroll max-h-[16rem] mt-4">
               {isLoadingGitRepos ? <Spinner/>
                 : gitRepositories?.gitRepositories.filter(
                   (repo: any) => repo.name.includes(repoKeyword))
